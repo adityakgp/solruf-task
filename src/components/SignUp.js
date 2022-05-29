@@ -1,6 +1,7 @@
 import React, {useRef, useState} from 'react'
 import { useAuth } from '../contexts/AuthContext'
 import { Link, useNavigate } from "react-router-dom"
+// import "./signup.css"
 
 function SignUp() {
 
@@ -33,9 +34,11 @@ function SignUp() {
 
   return (
     <>
-      <div className="card ">
-          <h2>Sign Up</h2>
-          {error && <div class="alert alert-danger" role="alert">{error}</div>}
+    {/*  */}
+      <div className="card">
+        <div className='card-body'>
+          <h2 className='card-title'>Sign Up</h2>
+          {error && <div className="alert alert-danger" role="alert">{error}</div>}
       <form onSubmit={submitHandle}>
             <div className="mb-3">
     <label for="exampleInputEmail1" className="form-label">Email address</label>
@@ -52,9 +55,10 @@ function SignUp() {
   </div>
   <button disabled={loading} type="submit" className="btn btn-primary">Sign Up</button>
   </form>
-      </div>
   <div className="w-100 text-center mt-2">
         Already have an account? <Link to="/login">Log In</Link>
+      </div>
+      </div>
       </div>
       </>
   )

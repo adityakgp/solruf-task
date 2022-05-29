@@ -1,0 +1,12 @@
+.user{
+    display: inline-flex;
+}
+.user h2{
+    margin-block-start: 75px;
+    margin-inline-start: 20px;
+}
+img{
+    width: 200px;
+    height: 200px;
+    border-radius: 200px;
+}

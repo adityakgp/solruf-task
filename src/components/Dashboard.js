@@ -1,39 +1,127 @@
-import React, { useState } from "react"
+import React, { useState, useEffect } from "react"
+import { doc, serverTimestamp, setDoc } from "firebase/firestore"
+import { db, storage } from "../firebase"
+import { ref, getDownloadURL, uploadBytesResumable } from "firebase/storage"
 import { useAuth } from "../contexts/AuthContext"
-import { useNavigate } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
+import User from "./User"
+import Try from "./Try"
 
-export default function Dashboard() {
-  const [error, seterror] = useState("")
-  const { logout } = useAuth()
+
+export default function Dashboard({ inputs, title }) {
+  const [file, setFile] = useState("")
+  const [data, setData] = useState({})
+  const [per, setPerc] = useState(null);
   const navigate = useNavigate()
 
-  async function handleLogout() {
-    seterror("")
 
-    try {
-      await logout()
-      navigate("/login")
-    } catch {
-      seterror("Failed to log out")
-    }
+  useEffect(() => {
+    const uploadFile = () => {
+      const name = new Date().getTime() + file.name;
+      console.log(name);
+      const storageRef = ref(storage, file.name);
+      const uploadTask = uploadBytesResumable(storageRef, file);
+
+      uploadTask.on(
+        "state_changed",
+        (snapshot) => {
+          const progress =
+            (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+          console.log("Upload is " + progress + "% done");
+          setPerc(progress);
+          switch (snapshot.state) {
+            case "paused":
+              console.log("Upload is paused");
+              break;
+            case "running":
+              console.log("Upload is running");
+              break;
+            default:
+              break;
+          }
+        },
+        (error) => {
+          console.log(error);
+        },
+        () => {
+          getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+            setData((prev) => ({ ...prev, img: downloadURL }));
+          });
+        }
+      );
+    };
+    file && uploadFile();
+  }, [file]);
+
+  const handleInput = (e)=>{
+    const id = e.target.id;
+    const value = e.target.value;
+    
+    setData({ ...data, [id]: value });
   }
-
+  const { currentUser } = useAuth()
+  
+  const handleAdd = async (e)=>{
+    e.preventDefault()
+    try{
+      await setDoc(doc(db, "users", currentUser.uid), {
+      ...data,
+      timeStamp: serverTimestamp(),
+    })
+    navigate('/user')
+  }catch(err){
+    console.log(err)
+  }
+  }
+  
   return (
-    <div>
-         <h2 className="text-center mb-4">Profile</h2>
-         {error && <div className="alert alert-danger" role="alert">{error}</div>}
-         <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcThPIWNxqYlgwcPj7JZDM_5pS7nf-Gy9ySNmD4WOLHd_YGhEILVR-DqzJ6FIEdbMw-dxoY&usqp=CAU" alt="" />
-         <h2>Name</h2>
-         <div className="input-group mb-3">
-        <input type="file" className="form-control" id="inputGroupFile02"/>
-        <button type="submit" className="btn btn-primary">Update Profile Picture</button>
+    <>
+        <div className="top">
+          <h1>{title}</h1>
         </div>
-        <div className="input-group mb-3">
-  <input type="text" className="form-control" placeholder="Change username" aria-label="Change username" aria-describedby="button-addon2"/>
-  <button className="btn btn-primary" type="submit" id="button-addon2">Update Name</button>
-</div>
-          <button onClick={handleLogout} type="submit" className="btn btn-primary">Log Out</button>
+        <div className="bottom">
+          <div className="left">
+            <img
+              src={
+                file
+                  ? URL.createObjectURL(file)
+                  : "https://icon-library.com/images/no-image-icon/no-image-icon-0.jpg"
+              }
+              alt=""
+            />
+          </div>
+          <div className="right">
+            <form onSubmit={handleAdd}>
+              <div className="formInput">
+                <label htmlFor="file">
+                  Upload Image
+                </label>
+                <input
+                  type="file"
+                  id="file"
+                  onChange={(e) => setFile(e.target.files[0])}
+                  style={{ display: "none" }}
+                />
+              </div>
 
-    </div>
+              {inputs.map((input) => (
+                <div className="formInput" key={input.id}>
+                  <label>{input.label}</label>
+                  <input
+                    id={input.id}
+                    type={input.type}
+                    placeholder={input.placeholder}
+                    onChange={handleInput}
+                  />
+                </div>
+              ))}
+              <button disabled={per !== null && per < 100} type="submit">
+                Send
+              </button>
+            </form>
+          </div>
+        </div>
+        {/* <User/> */}
+    </>
   )
 }

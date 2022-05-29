@@ -19,7 +19,7 @@ function Login() {
             seterror('')
             setloading(true)
             await login(emailRef.current.value, passwordRef.current.value) 
-            navigate('/') 
+            navigate('/user') 
         }catch{
             seterror('Failed to Log in')
         }
@@ -28,9 +28,9 @@ function Login() {
 
   return (
     <>
-      <div className="card">
+     <div className="card">
           <h2>Log In</h2>
-          {error && <div class="alert alert-danger" role="alert">{error}</div>}
+          {error && <div className="alert alert-danger" role="alert">{error}</div>}
       <form onSubmit={submitHandle}>
             <div className="mb-3">
     <label for="exampleInputEmail1" className="form-label">Email address</label>

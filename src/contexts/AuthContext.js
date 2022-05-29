@@ -15,6 +15,7 @@ export function AuthProvider({children}) {
 
         function signup( email, password){
         return auth.createUserWithEmailAndPassword( email, password)
+        // createUserDocument(user)
      }
 
         function login(email, password) {
@@ -27,10 +28,6 @@ export function AuthProvider({children}) {
     
       function resetPassword(email) {
         return auth.sendPasswordResetEmail(email)
-      }
-    
-      function updateName(name) {
-        return currentUser.updateName(name)
       }
 
     useEffect(() => {
@@ -46,8 +43,7 @@ export function AuthProvider({children}) {
         signup,
         login,
         logout,
-        resetPassword,
-        updateName
+        resetPassword
     }
     
     

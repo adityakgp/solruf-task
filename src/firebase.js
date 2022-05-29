@@ -1,5 +1,7 @@
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/auth';
+import { getStorage } from "firebase/storage";
+import { getFirestore } from "firebase/firestore";
 // import { getStorage } from "firebase/storage";
 // import { updateProfile } from "firebase/auth";
 // import { getDownloadURL, getStorage, ref, uploadBytes } from "firebase/storage";
@@ -13,7 +15,9 @@ const app = firebase.initializeApp({
   appId: process.env.REACT_APP_FIREBASE_APP_ID
 })
 
+export const db = getFirestore(app);
 export const auth = app.auth()
+export const storage = getStorage(app);
 // export const UpdateProfile = updateProfile(app)
 // // export const storage = getStorage(app);
 // export const DownloadURL = getDownloadURL(app)

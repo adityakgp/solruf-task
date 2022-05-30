@@ -1,0 +1,37 @@
+*{
+    color: white;
+    background-color: black;
+}
+input{
+    color: white;
+}
+h1{
+    text-align: center;
+}
+.dashboard{
+    width: 30vw;
+    position: absolute;
+    top:10em;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
+}
+.profilePicUpdate{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.updateName{
+    margin-block-start: 2em;
+}
+.dbtn{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.formInput{
+    margin-block-start: 2em;
+    display: flex;
+    justify-content: space-between;
+}

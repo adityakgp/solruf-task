@@ -1,7 +1,7 @@
 import React, {useRef, useState} from 'react'
 import { useAuth } from '../contexts/AuthContext'
 import { Link, useNavigate } from "react-router-dom"
-// import "./signup.css"
+import "./auth.css"
 
 function SignUp() {
 
@@ -37,7 +37,7 @@ function SignUp() {
     {/*  */}
       <div className="card">
         <div className='card-body'>
-          <h2 className='card-title'>Sign Up</h2>
+          <h1>Sign Up</h1>
           {error && <div className="alert alert-danger" role="alert">{error}</div>}
       <form onSubmit={submitHandle}>
             <div className="mb-3">
@@ -53,7 +53,10 @@ function SignUp() {
     <label for="exampleInputPassword2" className="form-label">Confirm Password</label>
     <input type="password" ref={passwordConfirmRef} className="form-control" id="exampleInputPassword2"/>
   </div>
+  <div className="dbtn">
+
   <button disabled={loading} type="submit" className="btn btn-primary">Sign Up</button>
+  </div>
   </form>
   <div className="w-100 text-center mt-2">
         Already have an account? <Link to="/login">Log In</Link>

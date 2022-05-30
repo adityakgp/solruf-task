@@ -2,25 +2,23 @@
     color: white;
     background-color: black;
 }
-.user{
+input{
+    color: white;
+}
+h1{
+    text-align: center;
+}
+.card{
     width: 30vw;
     position: absolute;
-    top:0;
+    top:10em;
     bottom: 0;
     left: 0;
     right: 0;
     margin: auto;
-    /* display: inline-flex; */
+    border: none;
 }
-.user h2 h4{
-    margin-block-start: 1em;
-}
-img{
-    width: 200px;
-    height: 200px;
-    border-radius: 200px;
-}
-.ucenter{
+.dbtn{
     display: flex;
     align-items: center;
     justify-content: center;

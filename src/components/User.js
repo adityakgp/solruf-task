@@ -29,10 +29,10 @@ function User() {
     <>
         <div className='user'>
             <br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
-            <img src={data.img?data.img:""} alt="" />
-            <h2>{data.displayName?data.displayName:"Upload your name"}</h2>
+            <div className='ucenter'><img src={data.img?data.img:""} alt="" /></div>
+            <div className='ucenter'><h2>{data.displayName?data.displayName:"Upload your name"}</h2></div>
+            <div className='ucenter'><h4>Update your<Link to='/'> profile</Link></h4></div>
         </div>
-        <h3>Update your<Link to='/'> profile</Link></h3>
     </>
   )
 }

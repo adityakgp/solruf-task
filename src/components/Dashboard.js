@@ -3,12 +3,11 @@ import { doc, serverTimestamp, setDoc } from "firebase/firestore"
 import { db, storage } from "../firebase"
 import { ref, getDownloadURL, uploadBytesResumable } from "firebase/storage"
 import { useAuth } from "../contexts/AuthContext"
-import { Link, useNavigate } from "react-router-dom"
-import User from "./User"
-import Try from "./Try"
+import { useNavigate } from "react-router-dom"
+import "./dashboard.css"
 
 
-export default function Dashboard({ inputs, title }) {
+export default function Dashboard() {
   const [file, setFile] = useState("")
   const [data, setData] = useState({})
   const [per, setPerc] = useState(null);
@@ -76,52 +75,40 @@ export default function Dashboard({ inputs, title }) {
   
   return (
     <>
-        <div className="top">
-          <h1>{title}</h1>
-        </div>
+    <h1>Update Your Profile Here</h1>
+    <div className="dashboard">
         <div className="bottom">
-          <div className="left">
+            <form onSubmit={handleAdd}>
+            <div className="profilePicUpdate">
             <img
               src={
                 file
-                  ? URL.createObjectURL(file)
+                ? URL.createObjectURL(file)
                   : "https://icon-library.com/images/no-image-icon/no-image-icon-0.jpg"
-              }
-              alt=""
-            />
+                }
+                alt=""
+                />
           </div>
-          <div className="right">
-            <form onSubmit={handleAdd}>
               <div className="formInput">
                 <label htmlFor="file">
-                  Upload Image
+                  <h4>Upload Image</h4>
                 </label>
                 <input
                   type="file"
                   id="file"
                   onChange={(e) => setFile(e.target.files[0])}
-                  style={{ display: "none" }}
                 />
               </div>
-
-              {inputs.map((input) => (
-                <div className="formInput" key={input.id}>
-                  <label>{input.label}</label>
-                  <input
-                    id={input.id}
-                    type={input.type}
-                    placeholder={input.placeholder}
-                    onChange={handleInput}
-                  />
-                </div>
-              ))}
-              <button disabled={per !== null && per < 100} type="submit">
-                Send
-              </button>
+              <div className="updateName input-group mb-3">
+              <input onChange={handleInput} id="displayName" type="text" className="form-control" placeholder="Enter Your Name" aria-label="Your Name"/>
+              </div>
+              <div className="dbtn">
+              <button disabled={per !== null && per < 100} type="submit" className="btn btn-warning">Update your profile :)</button>
+              </div>
             </form>
-          </div>
         </div>
         {/* <User/> */}
+    </div>
     </>
   )
 }

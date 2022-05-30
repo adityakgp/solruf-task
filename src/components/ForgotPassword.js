@@ -1,6 +1,7 @@
 import React, { useRef, useState } from "react"
 import { useAuth } from "../contexts/AuthContext"
 import { Link } from "react-router-dom"
+import "./auth.css"
 
 export default function ForgotPassword() {
   const emailRef = useRef()
@@ -26,8 +27,11 @@ export default function ForgotPassword() {
   }
 
   return (
-<div>
-    <h2>Reset Password</h2>
+    <>
+<div className="card">
+  <div className="card-body">
+
+    <h1>Reset Password</h1>
     {error && <div class="alert alert-danger" role="alert">{error}</div>}
     {message && <div class="alert alert-success" role="alert">{message}</div>}
     <form onSubmit={submitHandle}>
@@ -36,7 +40,10 @@ export default function ForgotPassword() {
     <input type="email" className="form-control" ref={emailRef} id="exampleInputEmail1" aria-describedby="emailHelp"/>
     <div id="emailHelp" className="form-text">We'll never share your email with anyone else.</div>
   </div>
+  <div className="dbtn">
+
   <button disabled={loading} type="submit" className="btn btn-primary">Reset Password</button>
+  </div>
   </form>
   <div className="w-100 text-center mt-3">
             <Link to="/login">Login</Link>
@@ -44,6 +51,8 @@ export default function ForgotPassword() {
   <div className="w-100 text-center mt-2">
         Need an account? <Link to="/signup">Sign Up</Link>
       </div>
+  </div>
 </div>
+    </>
   )
 }
